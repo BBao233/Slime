@@ -58,8 +58,7 @@ public class PlayerConveyorMove : MonoBehaviour
         }
         else
         {
-            // 离开传送带后，水平速度逐渐减为0
-            currentXSpeed = Mathf.MoveTowards(currentXSpeed, 0f, slowDownRate * Time.fixedDeltaTime);
+
         }
 
         // 水平速度始终生效，竖直速度交给重力/跳跃
