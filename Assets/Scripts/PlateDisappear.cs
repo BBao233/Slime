@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlateDisappear : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Slime"))
         {
-            Debug.Log("小球碰到踏板，小球消失");
+            Debug.Log("史莱姆被接住");
 
-            // 让小球消失
-            other.gameObject.SetActive(false);
+            // ✅ 通知GameManager（关键！）
+            GameManager.Instance.OnSlimeHandled(false);
+
+            // ✅ 再销毁
+            Destroy(other.gameObject);
         }
     }
 }

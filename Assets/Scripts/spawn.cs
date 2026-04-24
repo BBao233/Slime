@@ -2,60 +2,49 @@
 
 public class SlimeSpawner : MonoBehaviour
 {
-    [Header("生成设置")]
+    [Header("预制体")]
     public GameObject slimePrefab;
-    public float spawnInterval = 1.5f;
+
+    [Header("生成参数")]
+    public int totalToSpawn = 10;        // 本关总共生成多少个
+    public float spawnInterval = 1.5f;   // 生成间隔
 
     [Header("生成位置偏移")]
     public Vector2 spawnOffset = new Vector2(0, 1.5f);
 
-    [Header("数量限制")]
-    public int maxSlimeCount = 10;
+    private int spawnedCount = 0;
+    private float timer = 0f;
+    private bool isSpawning = true;
 
-    private int currentCount = 0;
-
-    void Start()
+    void Update()
     {
-        InvokeRepeating(nameof(Spawn), 1f, spawnInterval);
+        if (!isSpawning) return;
+
+        timer += Time.deltaTime;
+
+        if (timer >= spawnInterval)
+        {
+            timer = 0f;
+            Spawn();
+        }
     }
 
     void Spawn()
     {
-        if (currentCount >= maxSlimeCount) return;
+        if (spawnedCount >= totalToSpawn)
+        {
+            isSpawning = false;
+            return;
+        }
 
         Vector3 spawnPos = transform.position + (Vector3)spawnOffset;
+        spawnPos.z = 0;
 
         GameObject slime = Instantiate(slimePrefab, spawnPos, Quaternion.identity);
 
-        currentCount++;
+        spawnedCount++;
 
-        // 👇 在生成时直接绑定销毁回调
-        SlimeAutoDestroy tracker = slime.AddComponent<SlimeAutoDestroy>();
-        tracker.Init(this);
+        // 👉 注册到GameManager（关键！）
+        GameManager.Instance.RegisterSlime();
     }
-
-    // 被史莱姆调用
-    public void OnSlimeDestroyed()
-    {
-        currentCount--;
-    }
-
-    public class SlimeAutoDestroy : MonoBehaviour
-    {
-        private SlimeSpawner spawner;
-
-        public void Init(SlimeSpawner s)
-        {
-            spawner = s;
-        }
-
-        void OnDestroy()
-        {
-            if (spawner != null)
-            {
-                spawner.OnSlimeDestroyed();
-            }
-        }
-    }
-
 }
