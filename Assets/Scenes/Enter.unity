@@ -914,7 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b477b02c0d2e06a4e8bf65f837fadbf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: 1
+  nextSceneName: xyy1
   quitSceneName: 
 --- !u!4 &1981706649
 Transform:
