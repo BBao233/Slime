@@ -23,19 +23,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/xyy1.unity
     guid: 1911948d9fb3a3a48b3faa4d5fbd755b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/xyy2.unity
     guid: 9abe06eae9a3b794cb69e238d49ec504
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/xyy3.unity
     guid: ef2bce9ae0714cd46b5ba441b14ed7d3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/xyy4.unity
     guid: 3982f91b5553cf5409798e6ef3d4ebae
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/xyy5.unity
     guid: 28a508b14ab38554fbb65c6e54aef895
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/xyy6.unity
     guid: 089c24dc0da2d994e910805aa26918b9
   m_configObjects: {}
