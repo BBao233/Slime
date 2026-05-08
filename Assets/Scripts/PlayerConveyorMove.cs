@@ -15,9 +15,14 @@ public class PlayerConveyorMove : MonoBehaviour
 
     [Header("跳跃力度")]
     public float jumpForce = 5f;
+    
+    [Header("起跳粒子")]
+    public GameObject jumpParticlePrefab;
+    public Vector2 particleOffset = new Vector2(-0.2f, -0.1f);
 
     private Rigidbody2D rb;
     private Collider2D playerCollider;
+    private SlimeColor slimeColor;
 
     private float currentXSpeed;
     private bool onConveyor = false;
@@ -30,6 +35,8 @@ public class PlayerConveyorMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
+        slimeColor = GetComponent<SlimeColor>();
+
         currentXSpeed = baseSpeed;
     }
 
@@ -42,15 +49,16 @@ public class PlayerConveyorMove : MonoBehaviour
             // 在传送带上时，玩家可以左右控制加减速
             currentXSpeed += input * accel * Time.fixedDeltaTime;
 
-            // 限制速度范围：
-            // 最小为0，表示最多减速到停下，不会反向往左
-            // 最大为基础速度的2倍
+            // 最小为0，最大为基础速度2倍
             currentXSpeed = Mathf.Clamp(currentXSpeed, 0f, baseSpeed * 2f);
 
             // 跟随传送带上下移动
             if (currentConveyor != null)
             {
-                rb.position = new Vector2(rb.position.x, rb.position.y + currentConveyor.deltaY);
+                rb.position = new Vector2(
+                    rb.position.x,
+                    rb.position.y + currentConveyor.deltaY
+                );
             }
 
             // 检查是否到达传送带右边缘
@@ -61,7 +69,6 @@ public class PlayerConveyorMove : MonoBehaviour
 
         }
 
-        // 水平速度始终生效，竖直速度交给重力/跳跃
         rb.velocity = new Vector2(currentXSpeed, rb.velocity.y);
     }
 
@@ -73,10 +80,10 @@ public class PlayerConveyorMove : MonoBehaviour
         Bounds beltBounds = currentConveyorCollider.bounds;
         Bounds playerBounds = playerCollider.bounds;
 
-        // 小球最右边碰到传送带最右边时起跳
         float playerRightX = playerBounds.max.x;
         float beltRightX = beltBounds.max.x;
 
+        // 史莱姆最右边到达传送带最右边时起跳
         if (playerRightX >= beltRightX)
         {
             hasJumped = true;
@@ -84,7 +91,19 @@ public class PlayerConveyorMove : MonoBehaviour
             currentConveyor = null;
             currentConveyorCollider = null;
 
-            // 给固定向上的起跳速度
+            // 播放起跳动画：播放一次，然后停在最后一帧
+            if (slimeColor != null)
+            {
+                slimeColor.ShowJump();
+            }
+
+	    if (jumpParticlePrefab != null)
+	    {
+    	    Vector3 spawnPos = transform.position + (Vector3)particleOffset;
+    	    GameObject particle = Instantiate(jumpParticlePrefab, spawnPos, Quaternion.identity);
+    	    Destroy(particle, 1f);
+	    }
+
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
     }
@@ -99,6 +118,12 @@ public class PlayerConveyorMove : MonoBehaviour
 
             currentConveyor = collision.gameObject.GetComponent<ConveyorMove>();
             currentConveyorCollider = collision.gameObject.GetComponent<Collider2D>();
+
+            // 如果重新碰到传送带，恢复常态循环动画
+            if (slimeColor != null)
+            {
+                slimeColor.ShowNormal();
+            }
         }
     }
 
@@ -106,7 +131,6 @@ public class PlayerConveyorMove : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Conveyor"))
         {
-            // 正常离开传送带时取消跟随
             if (!hasJumped)
             {
                 onConveyor = false;

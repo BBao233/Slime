@@ -323,7 +323,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &264973781
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -442,6 +442,8 @@ MonoBehaviour:
   accel: 5
   slowDownRate: 5
   jumpForce: 5
+  jumpParticlePrefab: {fileID: 0}
+  particleOffset: {x: -0.2, y: -0.1}
 --- !u!114 &264973785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,6 +457,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorType: 0
+  normalFrames: []
+  jumpFrames: []
+  correctFrames: []
+  wrongFrames: []
+  normalFrameInterval: 0.15
+  actionFrameInterval: 0.1
 --- !u!1 &269362820
 GameObject:
   m_ObjectHideFlags: 0
@@ -2544,6 +2552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slimePrefab: {fileID: 264973779}
   spawnPoint: {fileID: 1556820498}
+  spriteLibrary: {fileID: 11400000, guid: 0d81e556bf10fa54ab54c860788b6295, type: 2}
   slimeOrder: 00000000010000000200000003000000000000000100000002000000030000000000000001000000020000000300000000000000010000000200000003000000
   randomizeOrder: 0
   spawnInterval: 2
