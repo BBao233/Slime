@@ -38,4 +38,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/xyy6.unity
     guid: 089c24dc0da2d994e910805aa26918b9
+  - enabled: 1
+    path: Assets/Scenes/xyy1 2.unity
+    guid: 58da2b76e1d937344b05608714d98bbb
+  - enabled: 1
+    path: Assets/Scenes/xyy1 3.unity
+    guid: d2742e8ffd5df0f4db9984565b54ef6d
+  - enabled: 1
+    path: Assets/Scenes/xyy1 4.unity
+    guid: 2619ed4cdcb575648a30eebf74703ecc
+  - enabled: 1
+    path: Assets/Scenes/xyy1 5.unity
+    guid: e299038bdf51e37459abaddf521f2a72
+  - enabled: 1
+    path: Assets/Scenes/xyy1 6.unity
+    guid: 35edfd4d6ac2a8f4f81abbfe94cdf5f8
   m_configObjects: {}

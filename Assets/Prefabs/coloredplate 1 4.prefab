@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5180091021855810603}
   - component: {fileID: 2537469649001284613}
   m_Layer: 0
-  m_Name: coloredplate
+  m_Name: coloredplate 1 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plateColor: 0
-  capacity: 2
+  capacity: 4
   speed: 2
   topY: 11
   bottomY: -10

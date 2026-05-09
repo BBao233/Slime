@@ -17,6 +17,21 @@ public class ColoredPlate : MonoBehaviour
     [Header("循环位置")]
     public float bottomY = -6f;
 
+    [Header("音效")]
+    public AudioSource audioSource;
+
+    [Header("挤压音效：每次随机播放一个")]
+    public AudioClip[] squeezeSounds;
+
+    [Header("普通正确音效")]
+    public AudioClip correctSound;
+
+    [Header("满容量正确音效")]
+    public AudioClip fullCorrectSound;
+
+    [Header("错误音效")]
+    public AudioClip wrongSound;
+
     private SpriteRenderer sr;
     private Collider2D plateCollider;
 
@@ -25,6 +40,11 @@ public class ColoredPlate : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         plateCollider = GetComponent<Collider2D>();
         ApplyColor();
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -102,8 +122,6 @@ public class ColoredPlate : MonoBehaviour
             slimeRb.velocity = Vector2.zero;
             slimeRb.angularVelocity = 0f;
             slimeRb.gravityScale = 0f;
-
-            // 关闭物理模拟，避免继续被重力、碰撞、速度影响
             slimeRb.simulated = false;
         }
 
@@ -125,7 +143,7 @@ public class ColoredPlate : MonoBehaviour
             currentCount++;
         }
 
-        // 6. 如果盒子接满，先关闭得分区，防止继续接别的史莱姆
+        // 6. 判断盒子是否满容量
         bool plateShouldDestroy = !isFailed && currentCount >= capacity;
 
         if (plateShouldDestroy && plateCollider != null)
@@ -133,13 +151,54 @@ public class ColoredPlate : MonoBehaviour
             plateCollider.enabled = false;
         }
 
-        // 7. 等动画播完后，再结算和销毁
-        StartCoroutine(HandleAfterAnimation(other.gameObject, isFailed, plateShouldDestroy, animTime));
+        // 7. 挤压音效 → 正确/错误音效 → 动画结束后结算和销毁
+        StartCoroutine(HandleAfterAnimationAndSound(
+            other.gameObject,
+            isFailed,
+            plateShouldDestroy,
+            animTime
+        ));
     }
 
-    private IEnumerator HandleAfterAnimation(GameObject slimeObj, bool isFailed, bool plateShouldDestroy, float delay)
+    private IEnumerator HandleAfterAnimationAndSound(
+        GameObject slimeObj,
+        bool isFailed,
+        bool plateShouldDestroy,
+        float animTime
+    )
     {
-        yield return new WaitForSeconds(delay);
+        AudioClip squeezeClip = GetRandomSqueezeSound();
+
+        if (audioSource != null && squeezeClip != null)
+        {
+            audioSource.PlayOneShot(squeezeClip);
+            yield return new WaitForSeconds(squeezeClip.length);
+        }
+
+        AudioClip resultClip = null;
+
+        if (isFailed)
+        {
+            resultClip = wrongSound;
+        }
+        else
+        {
+            resultClip = plateShouldDestroy ? fullCorrectSound : correctSound;
+        }
+
+        if (audioSource != null && resultClip != null)
+        {
+            audioSource.PlayOneShot(resultClip);
+        }
+
+        float waitTime = animTime;
+
+        if (resultClip != null)
+        {
+            waitTime = Mathf.Max(animTime, resultClip.length);
+        }
+
+        yield return new WaitForSeconds(waitTime);
 
         if (ColoredGameManager.Instance != null)
         {
@@ -152,5 +211,16 @@ public class ColoredPlate : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private AudioClip GetRandomSqueezeSound()
+    {
+        if (squeezeSounds == null || squeezeSounds.Length == 0)
+        {
+            return null;
+        }
+
+        int index = Random.Range(0, squeezeSounds.Length);
+        return squeezeSounds[index];
     }
 }
