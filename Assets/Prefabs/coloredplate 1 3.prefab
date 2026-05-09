@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plateColor: 0
   capacity: 4
-  speed: 2
+  speed: 6
   topY: 11
   bottomY: -10
   audioSource: {fileID: 2537469649001284613}
