@@ -645,8 +645,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 3
-  accel: 5
-  jumpForce: 5
+  accel: 4
+  jumpForce: 6
   jumpParticlePrefab: {fileID: 0}
   particleOffset: {x: -0.2, y: -0.1}
 --- !u!114 &264973785
@@ -951,9 +951,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platePrefab: {fileID: 3825160111600928734, guid: 1a2434721433a2e44b4106381e0cb1bc, type: 3}
-  spawnX: -10
+  spawnX: -9
   spawnY: -9
-  spawnInterval: 2
+  minSpawnDistance: 3
   plateOrder: 00000000010000000200000003000000
   randomizeOrder: 0
 --- !u!1 &520439050
@@ -1916,9 +1916,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be6f120593225eb4791e8f7755305da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6.5
-  minY: -3
-  maxY: 3
+  moveSpeed: 4
+  minY: -4.5
+  maxY: 4
   deltaY: 0
 --- !u!95 &985728557
 Animator:
@@ -2678,7 +2678,7 @@ MonoBehaviour:
   spriteLibrary: {fileID: 11400000, guid: 0d81e556bf10fa54ab54c860788b6295, type: 2}
   slimeOrder: 00000000010000000200000003000000000000000100000002000000030000000000000001000000020000000300000000000000010000000200000003000000
   randomizeOrder: 0
-  spawnInterval: 2.5
+  spawnInterval: 4
 --- !u!1 &1588697190
 GameObject:
   m_ObjectHideFlags: 0

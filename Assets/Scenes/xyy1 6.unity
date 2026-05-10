@@ -490,9 +490,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 839bed65aa6213d40a9c6d8f98d4033c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 3
-  accel: 5
-  jumpForce: 5
+  baseSpeed: 3.5
+  accel: 5.5
+  jumpForce: 6
   jumpParticlePrefab: {fileID: 0}
   particleOffset: {x: -0.2, y: -0.1}
 --- !u!114 &264973785
@@ -815,11 +815,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platePrefab: {fileID: 3825160111600928734, guid: 129ee0ebef812ac4685193b1e508d20a, type: 3}
-  spawnX: -10
+  spawnX: -9
   spawnY: -9
-  spawnInterval: 4
+  minSpawnDistance: 5
   plateOrder: 00000000010000000300000002000000040000000000000003000000
-  randomizeOrder: 0
+  randomizeOrder: 1
 --- !u!1 &450905880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1854,9 +1854,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be6f120593225eb4791e8f7755305da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  minY: -3
-  maxY: 3
+  moveSpeed: 6
+  minY: -4.5
+  maxY: 4
   deltaY: 0
 --- !u!95 &985728557
 Animator:
