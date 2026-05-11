@@ -21,19 +21,23 @@ public class ConveyorMove : MonoBehaviour
 
     void Update()
     {
-        // 输入放在 Update 读
-        inputY = Input.GetAxis("Vertical");
+        // 使用 Raw 输入，取消加减速感
+        inputY = Input.GetAxisRaw("Vertical");
     }
 
     void FixedUpdate()
     {
         Vector3 pos = transform.position;
 
+        // 直接移动
         pos.y += inputY * moveSpeed * Time.fixedDeltaTime;
+
+        // 限制范围
         pos.y = Mathf.Clamp(pos.y, minY, maxY);
 
         transform.position = pos;
 
+        // 记录Y变化量
         deltaY = transform.position.y - lastY;
         lastY = transform.position.y;
     }
