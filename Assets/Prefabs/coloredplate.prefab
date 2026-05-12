@@ -162,6 +162,8 @@ MonoBehaviour:
   correctSound: {fileID: 8300000, guid: 61a5f2d9b00e8a1489366fc53edee1ec, type: 3}
   fullCorrectSound: {fileID: 8300000, guid: b52ec04cce19a824db93a6c0dfef7fe8, type: 3}
   wrongSound: {fileID: 8300000, guid: f64eb0f12cc93f74386d8f7b864aedbe, type: 3}
+  hammerEffectPrefab: {fileID: 1246665533983077112, guid: 226a84b8ef1564d48b0b7fc2da509758, type: 3}
+  hammerOffset: {x: 0.5, y: 1, z: 0}
 --- !u!82 &2537469649001284613
 AudioSource:
   m_ObjectHideFlags: 0

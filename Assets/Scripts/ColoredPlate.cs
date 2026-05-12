@@ -32,6 +32,12 @@ public class ColoredPlate : MonoBehaviour
     [Header("错误音效")]
     public AudioClip wrongSound;
 
+    [Header("锤子特效")]
+    public GameObject hammerEffectPrefab;
+
+    [Header("锤子生成偏移")]
+    public Vector3 hammerOffset = new Vector3(0.5f, 1f, 0f);
+
     private SpriteRenderer sr;
     private Collider2D plateCollider;
 
@@ -39,6 +45,7 @@ public class ColoredPlate : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
         plateCollider = GetComponent<Collider2D>();
+
         ApplyColor();
 
         if (audioSource == null)
@@ -49,8 +56,10 @@ public class ColoredPlate : MonoBehaviour
 
     void Update()
     {
+        // 盒子持续向上移动
         transform.Translate(Vector3.up * speed * Time.deltaTime);
 
+        // 到顶部后循环回到底部
         if (transform.position.y >= topY)
         {
             transform.position = new Vector3(
@@ -101,22 +110,46 @@ public class ColoredPlate : MonoBehaviour
         SlimeColor slime = other.GetComponent<SlimeColor>();
         if (slime == null) return;
 
-        // 1. 关闭史莱姆碰撞，防止重复触发
+        // =========================
+        // 生成锤子动画
+        // =========================
+        if (hammerEffectPrefab != null)
+        {
+            Vector3 hammerPos = other.transform.position + hammerOffset;
+
+            Instantiate(
+                hammerEffectPrefab,
+                hammerPos,
+                Quaternion.identity
+            );
+        }
+
+        // =========================
+        // 关闭史莱姆碰撞
+        // =========================
         Collider2D slimeCollider = other.GetComponent<Collider2D>();
+
         if (slimeCollider != null)
         {
             slimeCollider.enabled = false;
         }
 
-        // 2. 禁用史莱姆移动脚本，防止下一帧继续写速度
-        PlayerConveyorMove moveScript = other.GetComponent<PlayerConveyorMove>();
+        // =========================
+        // 禁用移动脚本
+        // =========================
+        PlayerConveyorMove moveScript =
+            other.GetComponent<PlayerConveyorMove>();
+
         if (moveScript != null)
         {
             moveScript.enabled = false;
         }
 
-        // 3. 停止史莱姆自己的物理运动
+        // =========================
+        // 停止物理
+        // =========================
         Rigidbody2D slimeRb = other.GetComponent<Rigidbody2D>();
+
         if (slimeRb != null)
         {
             slimeRb.velocity = Vector2.zero;
@@ -125,10 +158,14 @@ public class ColoredPlate : MonoBehaviour
             slimeRb.simulated = false;
         }
 
-        // 4. 让史莱姆跟随盒子一起向上移动
+        // =========================
+        // 跟随盒子移动
+        // =========================
         other.transform.SetParent(transform, true);
 
-        // 5. 判断颜色是否匹配
+        // =========================
+        // 判断颜色
+        // =========================
         bool isFailed = slime.colorType != plateColor;
 
         float animTime;
@@ -143,21 +180,28 @@ public class ColoredPlate : MonoBehaviour
             currentCount++;
         }
 
-        // 6. 判断盒子是否满容量
-        bool plateShouldDestroy = !isFailed && currentCount >= capacity;
+        // =========================
+        // 判断盒子是否满
+        // =========================
+        bool plateShouldDestroy =
+            !isFailed && currentCount >= capacity;
 
         if (plateShouldDestroy && plateCollider != null)
         {
             plateCollider.enabled = false;
         }
 
-        // 7. 挤压音效 → 正确/错误音效 → 动画结束后结算和销毁
-        StartCoroutine(HandleAfterAnimationAndSound(
-            other.gameObject,
-            isFailed,
-            plateShouldDestroy,
-            animTime
-        ));
+        // =========================
+        // 开始结算流程
+        // =========================
+        StartCoroutine(
+            HandleAfterAnimationAndSound(
+                other.gameObject,
+                isFailed,
+                plateShouldDestroy,
+                animTime
+            )
+        );
     }
 
     private IEnumerator HandleAfterAnimationAndSound(
@@ -167,14 +211,23 @@ public class ColoredPlate : MonoBehaviour
         float animTime
     )
     {
+        // =========================
+        // 挤压音效
+        // =========================
         AudioClip squeezeClip = GetRandomSqueezeSound();
 
         if (audioSource != null && squeezeClip != null)
         {
             audioSource.PlayOneShot(squeezeClip);
-            yield return new WaitForSeconds(squeezeClip.length);
+
+            yield return new WaitForSeconds(
+                squeezeClip.length
+            );
         }
 
+        // =========================
+        // 正确/错误音效
+        // =========================
         AudioClip resultClip = null;
 
         if (isFailed)
@@ -183,7 +236,10 @@ public class ColoredPlate : MonoBehaviour
         }
         else
         {
-            resultClip = plateShouldDestroy ? fullCorrectSound : correctSound;
+            resultClip =
+                plateShouldDestroy
+                ? fullCorrectSound
+                : correctSound;
         }
 
         if (audioSource != null && resultClip != null)
@@ -191,22 +247,38 @@ public class ColoredPlate : MonoBehaviour
             audioSource.PlayOneShot(resultClip);
         }
 
+        // =========================
+        // 等待动画结束
+        // =========================
         float waitTime = animTime;
 
         if (resultClip != null)
         {
-            waitTime = Mathf.Max(animTime, resultClip.length);
+            waitTime = Mathf.Max(
+                animTime,
+                resultClip.length
+            );
         }
 
         yield return new WaitForSeconds(waitTime);
 
+        // =========================
+        // 通知GameManager
+        // =========================
         if (ColoredGameManager.Instance != null)
         {
-            ColoredGameManager.Instance.OnColoredSlimeHandled(isFailed);
+            ColoredGameManager.Instance
+                .OnColoredSlimeHandled(isFailed);
         }
 
+        // =========================
+        // 销毁史莱姆
+        // =========================
         Destroy(slimeObj);
 
+        // =========================
+        // 销毁满容量盒子
+        // =========================
         if (plateShouldDestroy)
         {
             Destroy(gameObject);
@@ -215,12 +287,17 @@ public class ColoredPlate : MonoBehaviour
 
     private AudioClip GetRandomSqueezeSound()
     {
-        if (squeezeSounds == null || squeezeSounds.Length == 0)
+        if (squeezeSounds == null ||
+            squeezeSounds.Length == 0)
         {
             return null;
         }
 
-        int index = Random.Range(0, squeezeSounds.Length);
+        int index = Random.Range(
+            0,
+            squeezeSounds.Length
+        );
+
         return squeezeSounds[index];
     }
 }
