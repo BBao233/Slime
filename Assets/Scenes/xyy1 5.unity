@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platePrefab: {fileID: 3825160111600928734, guid: f060a29868c5baf40a4f0b47411f1c1d, type: 3}
-  spawnX: -9
+  spawnX: -10
   spawnY: -9
   minSpawnDistance: 4
   plateOrder: 000000000100000003000000000000000200000003000000

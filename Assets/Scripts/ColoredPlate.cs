@@ -36,7 +36,7 @@ public class ColoredPlate : MonoBehaviour
     public GameObject hammerEffectPrefab;
 
     [Header("锤子生成偏移")]
-    public Vector3 hammerOffset = new Vector3(0.5f, 1f, 0f);
+    public Vector3 hammerOffset = new Vector3(-5.5f, -2f, 0f);
 
     private SpriteRenderer sr;
     private Collider2D plateCollider;

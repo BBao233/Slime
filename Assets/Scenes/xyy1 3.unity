@@ -951,7 +951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platePrefab: {fileID: 3825160111600928734, guid: 1a2434721433a2e44b4106381e0cb1bc, type: 3}
-  spawnX: -9
+  spawnX: -10
   spawnY: -9
   minSpawnDistance: 3
   plateOrder: 00000000010000000200000003000000
@@ -1916,7 +1916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be6f120593225eb4791e8f7755305da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 6
   minY: -6.5
   maxY: 5
   deltaY: 0
