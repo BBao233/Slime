@@ -7,8 +7,12 @@ public class LifeUI : MonoBehaviour
 
     void Start()
     {
-        // 👉 自动初始化（防止一开始UI不对）
-        UpdateLife(hearts.Length);
+        int maxLife = hearts.Length;
+        if (ColoredGameManager.Instance != null)
+            maxLife = ColoredGameManager.Instance.maxLife;
+        else if (GameManager.Instance != null)
+            maxLife = GameManager.Instance.maxLife;
+        UpdateLife(maxLife);
     }
 
     public void UpdateLife(int currentLife)

@@ -52,6 +52,18 @@ public class ColoredPlate : MonoBehaviour
         {
             audioSource = GetComponent<AudioSource>();
         }
+
+        // Leftwall 零摩擦，避免史莱姆蹭墙减速
+        Transform leftWall = transform.Find("Leftwall");
+        if (leftWall != null)
+        {
+            Collider2D wallCol = leftWall.GetComponent<Collider2D>();
+            if (wallCol != null && wallCol.sharedMaterial == null)
+            {
+                PhysicsMaterial2D zeroFric = new PhysicsMaterial2D { friction = 0f, bounciness = 0f };
+                wallCol.sharedMaterial = zeroFric;
+            }
+        }
     }
 
     void Update()
@@ -168,15 +180,13 @@ public class ColoredPlate : MonoBehaviour
         // =========================
         bool isFailed = slime.colorType != plateColor;
 
-        float animTime;
-
         if (isFailed)
         {
-            animTime = slime.ShowWrong();
+            slime.ShowWrong();
         }
         else
         {
-            animTime = slime.ShowCorrect();
+            slime.ShowCorrect();
             currentCount++;
         }
 
@@ -198,8 +208,7 @@ public class ColoredPlate : MonoBehaviour
             HandleAfterAnimationAndSound(
                 other.gameObject,
                 isFailed,
-                plateShouldDestroy,
-                animTime
+                plateShouldDestroy
             )
         );
     }
@@ -207,8 +216,7 @@ public class ColoredPlate : MonoBehaviour
     private IEnumerator HandleAfterAnimationAndSound(
         GameObject slimeObj,
         bool isFailed,
-        bool plateShouldDestroy,
-        float animTime
+        bool plateShouldDestroy
     )
     {
         // =========================
@@ -248,23 +256,11 @@ public class ColoredPlate : MonoBehaviour
         }
 
         // =========================
-        // 等待动画结束
+        // 等结果音效播完 → 立即扣血
         // =========================
-        float waitTime = animTime;
+        float resultClipLen = (resultClip != null) ? resultClip.length : 0f;
+        yield return new WaitForSeconds(resultClipLen);
 
-        if (resultClip != null)
-        {
-            waitTime = Mathf.Max(
-                animTime,
-                resultClip.length
-            );
-        }
-
-        yield return new WaitForSeconds(waitTime);
-
-        // =========================
-        // 通知GameManager
-        // =========================
         if (ColoredGameManager.Instance != null)
         {
             ColoredGameManager.Instance
