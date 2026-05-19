@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"F:/test/bo-bing-le/\")",
+      "Read(//f/test/bo-bing-le/**)"
+    ]
+  }
+}

@@ -5,7 +5,7 @@ public class PlateSpawner : MonoBehaviour
     public GameObject platePrefab;
 
     [Header("生成位置")]
-    public float spawnY = -6f;
+    public float spawnY = -3f;
     public float spawnX = -5f;
 
     [Header("生成间隔")]

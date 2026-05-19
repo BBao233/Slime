@@ -876,8 +876,9 @@ MonoBehaviour:
   spawnX: -10
   spawnY: -9
   minSpawnDistance: 4
-  plateOrder: 000000000100000003000000000000000200000003000000
+  plateOrder: 00000000010000000300000002000000
   randomizeOrder: 1
+  spawnAllAtOnce: 1
 --- !u!1 &470541972
 GameObject:
   m_ObjectHideFlags: 0
@@ -3121,8 +3122,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 1556820498}
   spriteLibrary: {fileID: 11400000, guid: 0d81e556bf10fa54ab54c860788b6295, type: 2}
   slimeOrder: 000000000000000001000000020000000300000000000000010000000200000003000000030000000300000001000000000000000000000002000000030000000000000003000000
-  randomizeOrder: 0
-  spawnInterval: 2.5
+  randomizeOrder: 1
+  spawnInterval: 2
 --- !u!1 &1588697190
 GameObject:
   m_ObjectHideFlags: 0

@@ -695,9 +695,10 @@ MonoBehaviour:
   platePrefab: {fileID: 3825160111600928734, guid: 47b99ec73a3cc7843b3cffd5c6a20c2e, type: 3}
   spawnX: -10
   spawnY: -9
-  minSpawnDistance: 4
-  plateOrder: 01000000020000000200000003000000
-  randomizeOrder: 0
+  minSpawnDistance: 5
+  plateOrder: 010000000200000003000000
+  randomizeOrder: 1
+  spawnAllAtOnce: 1
 --- !u!1 &488014444
 GameObject:
   m_ObjectHideFlags: 0
@@ -2841,7 +2842,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 1556820498}
   spriteLibrary: {fileID: 11400000, guid: 0d81e556bf10fa54ab54c860788b6295, type: 2}
   slimeOrder: 02000000010000000200000003000000010000000200000002000000010000000200000002000000030000000200000001000000030000000200000003000000
-  randomizeOrder: 0
+  randomizeOrder: 1
   spawnInterval: 2.5
 --- !u!1 &1588697190
 GameObject:

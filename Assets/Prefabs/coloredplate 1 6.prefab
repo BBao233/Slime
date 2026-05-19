@@ -148,10 +148,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plateColor: 0
-  capacity: 5
+  capacity: 20
   speed: 3.5
-  topY: 40
-  bottomY: -18
+  topY: 11
+  bottomY: -6
   audioSource: {fileID: 2537469649001284613}
   squeezeSounds:
   - {fileID: 8300000, guid: 3576500ea34938b4aa946826068f6281, type: 3}

@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plateColor: 0
-  capacity: 3
+  capacity: 30
   speed: 2
   topY: 11
   bottomY: -10

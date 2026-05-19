@@ -19,6 +19,9 @@ public class ColoredPlateSpawner : MonoBehaviour
     [Header("是否随机生成顺序")]
     public bool randomizeOrder = false;
 
+    [Header("一次性全部生成（盒子初始就在传送带上）")]
+    public bool spawnAllAtOnce = false;
+
     private List<ColorType> finalOrder;
 
     // 当前生成索引
@@ -40,9 +43,22 @@ public class ColoredPlateSpawner : MonoBehaviour
             Shuffle(finalOrder);
         }
 
-        // 第一个盒子直接生成
-        if (finalOrder.Count > 0)
+        if (finalOrder.Count == 0)
+            return;
+
+        if (spawnAllAtOnce)
         {
+            // 一次性生成全部盒子，均匀排布在传送带上
+            for (int i = 0; i < finalOrder.Count; i++)
+            {
+                Vector3 pos = new Vector3(spawnX, spawnY + i * minSpawnDistance, 0f);
+                SpawnPlateAt(finalOrder[i], pos);
+            }
+            spawnIndex = finalOrder.Count; // 标记全部已生成
+        }
+        else
+        {
+            // 第一个盒子直接生成
             SpawnPlate(finalOrder[spawnIndex]);
             spawnIndex++;
         }
@@ -75,7 +91,11 @@ public class ColoredPlateSpawner : MonoBehaviour
     void SpawnPlate(ColorType color)
     {
         Vector3 pos = new Vector3(spawnX, spawnY, 0f);
+        SpawnPlateAt(color, pos);
+    }
 
+    void SpawnPlateAt(ColorType color, Vector3 pos)
+    {
         GameObject obj = Instantiate(platePrefab, pos, Quaternion.identity);
 
         // 记录最新盒子
