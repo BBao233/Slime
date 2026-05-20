@@ -149,9 +149,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plateColor: 0
   capacity: 30
-  speed: 2
+  speed: 2.5
   topY: 11
-  bottomY: -10
+  bottomY: -8
   audioSource: {fileID: 2537469649001284613}
   squeezeSounds:
   - {fileID: 8300000, guid: 3576500ea34938b4aa946826068f6281, type: 3}

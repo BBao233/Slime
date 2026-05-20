@@ -150,8 +150,8 @@ MonoBehaviour:
   plateColor: 0
   capacity: 40
   speed: 1.7
-  topY: 25
-  bottomY: -7
+  topY: 15
+  bottomY: -10
   audioSource: {fileID: 2537469649001284613}
   squeezeSounds:
   - {fileID: 8300000, guid: 3576500ea34938b4aa946826068f6281, type: 3}
